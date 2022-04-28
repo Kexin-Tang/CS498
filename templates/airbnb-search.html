@@ -47,6 +47,10 @@ html {
 
 <body>
 <div class="page">
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <br>
+            <a class="btn btn-primary" href="/" role="button">Home</a>
+    </nav>
 <div class="content flex justify-content-center align-items-center">
     <div class="inner">
         <div style="display: flex; flex-direction: column; justify-content: center; text-align: center; height: 100%">
@@ -61,17 +65,17 @@ html {
                     <option value="SD">San Diego</option>
                     <option value="Portland">Portland</option>
                     <option value="Salem">Salem</option>
-                </select>
+        </select>
     </div>
   </div>
   <div class="form-group row">
-    <label for="start" class="col-sm-2 col-form-label">Start Date</label>
+    <label for="start" class="col-sm-2 col-form-label">Start Date*</label>
     <div class="col-sm-10">
         <input type="date" id="start" name="start-date">
     </div>
   </div>
     <div class="form-group row">
-    <label for="end" class="col-sm-2 col-form-label">End Date</label>
+    <label for="end" class="col-sm-2 col-form-label">End Date </label>
     <div class="col-sm-10">
         <input type="date" id="end" name="end-date">
     </div>
@@ -83,7 +87,10 @@ html {
   </div>
 </form>
             </div>
-            <div   style="height: 300px; overflow-y: auto;">
+            {% if error %}
+            <p>{{error}}</p>
+            {% endif %}
+            <div   style="height: 220px; overflow-y: auto;">
             {% if data %}
             <table class="table table-hover" style="width: 100px">
   <thead>
