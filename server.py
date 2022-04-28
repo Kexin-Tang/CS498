@@ -27,14 +27,19 @@ def airBnB_search():
 @app.route('/two-day-availability', methods=["POST"])
 def get_two_day_availability():
 	start_date = request.form.get('start-date')
-	end_date = None
+	end_date = request.form.get('end-date')
 	try:
-		end_date = request.form.get('end-date')
-	except:
 		start_date_object = datetime.date.fromisoformat(start_date)
-		end_date = start_date_object + datetime.timedelta(days=1)
+	except:
+		return render_template("airbnb-search.html", error="Start Date is required!")
+
+	start_date_object = datetime.date.fromisoformat(start_date)
+	if len(end_date) == 0:
+		end = start_date_object + datetime.timedelta(days=1)
+		end_date = end.strftime("%Y-%m-%d")
 	city = request.form.get('city')
-	res = checkAvailable(r, getCityCode(city), start_date, end_date.strftime("%Y-%m-%d"))
+
+	res = checkAvailable(r, getCityCode(city), start_date, end_date)
 	data = []
 	for item in res:
 		data.append(item[1])
