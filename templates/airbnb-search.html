@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/html">
+
+<head>
+    <title>Availability Search</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- 引入 Bootstrap -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+
+body{
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    background: url(../static/bg2.jpeg);
+    background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: 100% 100%;
+}
+html {
+        height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+.page{
+    box-sizing: border-box;/*为元素指定的任何内边距和边框都将在已设定的宽度和高度内进行绘制*/
+    height: 100%;
+    width: 100%;
+    text-align: center;
+}
+.content{
+        height: 100%;
+        display:flex;
+        text-align: center;
+        justify-content:center;
+        align-items:center;
+	}
+.inner{
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+}
+    </style>
+</head>
+
+<body>
+<div class="page">
+<div class="content flex justify-content-center align-items-center">
+    <div class="inner">
+        <div style="display: flex; flex-direction: column; justify-content: center; text-align: center; height: 100%">
+            <span style="font-size:26px">Search available houses</span><br>
+            <div>
+            <form action="/two-day-availability" method='POST'>
+  <div class="form-group row">
+      <label class="col-sm-2 col-form-label" for="city">City</label>
+    <div class="col-sm-10">
+        <select id="city" name="city">
+                    <option value="LA">Log Angeles</option>
+                    <option value="SD">San Diego</option>
+                    <option value="Portland">Portland</option>
+                    <option value="Salem">Salem</option>
+                </select>
+    </div>
+  </div>
+  <div class="form-group row">
+    <label for="start" class="col-sm-2 col-form-label">Start Date</label>
+    <div class="col-sm-10">
+        <input type="date" id="start" name="start-date">
+    </div>
+  </div>
+    <div class="form-group row">
+    <label for="end" class="col-sm-2 col-form-label">End Date</label>
+    <div class="col-sm-10">
+        <input type="date" id="end" name="end-date">
+    </div>
+  </div>
+  <div class="form-group row">
+    <div class="col-sm-10">
+      <button type="submit" class="btn btn-primary">Search</button>
+    </div>
+  </div>
+</form>
+            </div>
+            <div   style="height: 300px; overflow-y: auto;">
+            {% if data %}
+            <table class="table table-hover" style="width: 100px">
+  <thead>
+    <tr>
+        <th scope="col">Name</th>
+	<th scope="col">Neighborhood</th>
+	<th scope="col">Room Type</th>
+	<th scope="col">Accommodates</th>
+	<th scope="col">Property Type</th>
+	<th scope="col">>Cost Per Night</th>
+	<th scope="col">Rating</th>
+    </tr>
+  </thead>
+  <tbody>
+{% for line in data %}
+	<tr>
+		<td>{{line.name}}</td>
+		<td>{{line.neighbourhood}}</td>
+		<td>{{line.room_type}}</td>
+		<td>{{line.accommodates}}</td>
+		<td>{{line.property_type}}</td>
+		<td>{{line.price}}</td>
+		<td>{{line.review_scores_rating}}</td>
+	</tr>
+{% endfor %}
+  {% endif %}
+  </tbody>
+</table>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+</body>
+
+</html>

@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/html">
+
+<head>
+    <title>Home Page</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- 引入 Bootstrap -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+
+body{
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    background: url(../static/bg1.jpeg);
+    background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: 100% 100%;
+}
+html {
+        height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+.page{
+    box-sizing: border-box;/*为元素指定的任何内边距和边框都将在已设定的宽度和高度内进行绘制*/
+    height: 100%;
+    width: 100%;
+    text-align: center;
+}
+.content{
+        height: 100%;
+        display:flex;
+        text-align: center;
+        justify-content:center;
+        align-items:center;
+	}
+.inner{
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+}
+.blank{
+    width: 22rem;
+    height: 5rem;
+}
+    </style>
+</head>
+
+<body>
+<div class="page">
+<div class="content h-100 d-flex justify-content-center align-items-center col-xs-6 class">
+    <div class="inner">
+        <div style="display: flex; flex-direction: column; justify-content: center; text-align: center; height: 100%">
+            <span style="font-size:56px">Start Your Airbnb Search From Here!</span>
+        </div>
+    </div>
+</div>
+<div class="content h-100 d-flex justify-content-center align-items-center col-xs-6 class">
+    <div class="inner">
+        <div class="align-items-center  mx-auto col-xs-6 class">
+            <div class="row" style="width: 60rem; height:15rem; display: flex;">
+                <div class="col-sm-6 bg-info" style="display: flex; justify-content: center;">
+                    <div class="card" style="width: 25rem; align-self: center;">
+                        <div class="card-body">
+                            <p class="card-text">Search for Availability</p>
+                            <a href="/AirBnB-search" class="btn btn-primary">AirBnB search</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 bg-info" style="display: flex; justify-content: center;">
+                    <div class="card" style="width: 25rem; align-self: center;">
+                        <div class="card-body">
+                            <p class="card-text">Search for No Listing Neighborhoods</p>
+                            <a href="/Neighborhoods-search" class="btn btn-primary">Neighborhoods search</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="blank shadow"></div>
+            <div class="col-sm-6 bg-success p-2 text-dark shadow" style="width: 55rem; height:40rem; display: flex; justify-content: center;">
+                <div style="display: flex; justify-content: center;">
+                    <div style=" align-self: center; text-align: center;" >
+                        <h4> Search for Number of Listing Reviews in Cities</h4><br>
+                        <form action="/City-reviews" method='POST'>
+  <div class="form-group row">
+      <label class="col-sm-2 col-form-label" for="city">City</label>
+    <div class="col-sm-10">
+        <select id="city" name="city">
+                    <option value="LA">Log Angeles</option>
+                    <option value="SD">San Diego</option>
+                    <option value="Portland">Portland</option>
+                    <option value="Salem">Salem</option>
+                </select>
+    </div>
+  </div>
+  <div class="form-group row">
+    <label for="Year" class="col-sm-2 col-form-label">Year</label>
+    <div class="col-sm-10">
+        <select id="Year" name="Year">
+                        {% for i in range(2015, 2023) %}
+                        <option value="{{i}}">{{i}}</option>
+                        {% endfor %}
+                    </select>
+    </div>
+  </div>
+                            <div class="form-group row">
+    <label for="Month" class="col-sm-2 col-form-label">Month</label>
+    <div class="col-sm-10">
+                         <select id="Month" name="Month">
+                        {% for i in (1,2,3,4,5,6,7,8,9,10,11,12) %}
+                        <option value="{{i}}">{{i}}</option>
+                        {% endfor %}
+                    </select><br>
+    </div>
+  </div>
+  <div class="form-group row">
+    <div class="col-sm-10">
+      <button type="submit" class="btn btn-primary">Search</button>
+    </div>
+  </div>
+</form>
+                        	{% if data %}
+            <div   style="height: 70px; overflow-y: auto;">
+<table class="table table-hover" style="width: 100px">
+	<th>City</th>
+	<th>Reviews</th>
+
+{% for line in data %}
+	<tr>
+		<td>{{line.city}}</td>
+		<td>{{line.reviews}}</td>
+	</tr>
+{% endfor %}
+</table>
+	{% endif %}
+                    </div>
+                </div>
+            </div>
+</div>
+    </div>
+</div>
+</div>
+</div>
+</body>
+
+</html>

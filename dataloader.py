@@ -3,7 +3,20 @@ import pandas as pd
 import datetime
 import os
 import sys
-from main import cityCode, r
+
+pool = redis.ConnectionPool(
+    host='localhost',
+    port=6379,
+    decode_responses=True
+)
+r = redis.Redis(connection_pool=pool)
+
+cityCode = {
+    "LA": 1,
+    "SD": 2,
+    "Portland": 3,
+    "Salem": 4
+}
 
 
 def modifyListingID(file_path: str, code: int) -> pd.DataFrame:
@@ -27,6 +40,11 @@ def insertReviews(df: pd.DataFrame):
 
 
 def insertListing(df: pd.DataFrame, useCols: list):
+    df['review_scores_rating'] = df['review_scores_rating'].fillna(0)
+    df['review_scores_accuracy'] = df['review_scores_accuracy'].fillna(0)
+    df['review_scores_cleanliness'] = df['review_scores_cleanliness'].fillna(0)
+    df['review_scores_checkin'] = df['review_scores_checkin'].fillna(0)
+    df['review_scores_communication'] = df['review_scores_communication'].fillna(0)
     for _, row in df.iterrows():
         key = 'listingID:' + row["listing_id"]
         for col in useCols:
@@ -42,17 +60,16 @@ def insertBitmap(df: pd.DataFrame, useCols: list):
         else:
             r.setbit(date, offset, 0)
 
-
 def areaCode(cityCode: dict):
     for key, value in cityCode.items():
         r.hset("Area Code", key, value)
 
 
 def init():
-    neighborPaths = ["./dataset/Portland/neighbourhoods.csv", "./dataset/Salem/neighbourhoods.csv"]
-    reviewPaths = ["./dataset/Portland/reviews.csv", "./dataset/Salem/reviews.csv"]
-    calendarPaths = ["./dataset/Portland/calendar.csv", "./dataset/Salem/calendar.csv"]
-    listingPaths = ["./dataset/Portland/listings.csv", "./dataset/Salem/listings.csv"]
+    neighborPaths = ["./dataset/Portland/neighbourhoods.csv"]
+    reviewPaths = ["./dataset/Portland/reviews.csv"]
+    calendarPaths = ["./dataset/Portland/calendar.csv"]
+    listingPaths = ["./dataset/Portland/listings.csv"]
     areaCode(cityCode)
 
     for item in neighborPaths:
@@ -82,10 +99,9 @@ def init():
         city = item.split("/")[-2]
         code = cityCode[city]
         df = modifyListingID(item, code)
-        insertListing(df, ['name', 'room_type', 'minimum_nights', 'maximum_nights', "review_scores_rating", "neighbourhood_cleansed"])
+        insertListing(df, ['listing_id', 'name', 'room_type', 'minimum_nights', 'maximum_nights', "review_scores_rating", "neighbourhood", "accommodates", "property_type", "price", "neighbourhood_cleansed"])
 
-    print("listing finished")
 
 if __name__ == "__main__":
     init()
-    # print(str(r.hgetall("listingID:46030321")))
+    print(str(r.getbit("2022-03-10", 442100848)))
