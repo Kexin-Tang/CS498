@@ -12,10 +12,10 @@ body{
     height: 100%;
     margin: 0;
     padding: 0;
-    background: url(../static/bg2.jpeg);
-    background-repeat: no-repeat;
-  background-attachment: fixed;
-  background-size: 100% 100%;
+  {#  background: url(../static/bg2.jpeg);#}
+  {#  background-repeat: no-repeat;#}
+  {#background-attachment: fixed;#}
+  {#background-size: 100% 100%;#}
 }
 html {
         height: 100%;
@@ -47,10 +47,6 @@ html {
 
 <body>
 <div class="page">
-    <nav class="navbar navbar-default navbar-fixed-top">
-        <br>
-            <a class="btn btn-primary" href="/" role="button">Home</a>
-    </nav>
 <div class="content flex justify-content-center align-items-center">
     <div class="inner">
         <div style="display: flex; flex-direction: column; justify-content: center; text-align: center; height: 100%">
@@ -86,6 +82,9 @@ html {
     </div>
   </div>
 </form>
+                <a href="/">
+                    <button class="btn btn-success">Go Back</button>
+                </a>
             </div>
             {% if error %}
             <p>{{error}}</p>
@@ -122,6 +121,7 @@ html {
             </div>
         </div>
     </div>
+
 </div>
 </div>
 

@@ -90,6 +90,9 @@ html {
     </div>
   </div>
 </form>
+            <a href="/">
+                    <button class="btn btn-success">Go Back</button>
+                </a>
             </div>
             <div   style="height: 200px; overflow-y: auto;">
             {% if data %}
@@ -102,8 +105,8 @@ html {
   </thead>
   <tbody>
 {% for line in data %}
+    {% for n in line.neighbourhood %}
 	<tr>
-        {% for n in line.neighbourhood %}
 		<td>{{line.city}}</td>
         <td>{{n}}</td>
         {% endfor %}
