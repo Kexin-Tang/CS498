@@ -44,11 +44,11 @@ def checkAvailable(r: redis.Redis, cityCode: int, startDate: str, endDate: str) 
     pattern = "listingID:" + str(cityCode) + "*"
     res = []
     for k in r.scan_iter(pattern):
-        offset = int(re.findall(r"\d+\.?\d*", k)[0])
+        offset = int(re.findall(r"\d+\.?\d*", k)[0])    # using ID as the offset to check availability
         if r.getbit("checkAvailable", offset):
             res.append((k, r.hgetall(k)))
 
-    res = sorted(res, key=lambda x: x[1]['review_scores_rating'], reverse=True)
+    res = sorted(res, key=lambda x: x[1]['review_scores_rating'], reverse=True) # sort according to rating
     return res
 
 def countReview(r: redis.Redis, cityCode: int, year: str, month: str) -> int:
